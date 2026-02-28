@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <unordered_set>
 
 struct MsgIRC {
     std::vector<std::string> tags;
@@ -13,3 +12,5 @@ struct MsgIRC {
 
 std::vector<std::string> parseMsg(std::string msg);
 std::vector<std::string> parseUser(std::string src);
+std::string addPadding(std::string s, size_t n);
+void printMsg(MsgIRC msg);
