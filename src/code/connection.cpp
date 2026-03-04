@@ -31,9 +31,11 @@ void sendLoop(const int& sockfd) {
     std::string msg{};
     while (true) {
         std::getline(std::cin, msg);
-        if (msg.size() == 0) break;
-        if (processInput(msg))
+        if (processInput(msg)) {
             if (send(sockfd, (msg + "\r\n").c_str(), strlen((msg + "\r\n").c_str()), 0) <= 0) return;
+            std::vector<std::string> msgv = parseCmd(msg);
+            
+        }
         printLog(current_channel);
     }
 }

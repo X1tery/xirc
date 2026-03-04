@@ -6,6 +6,7 @@ std::unordered_map<std::string, std::deque<MsgIRC>> msg_log{};
 std::string current_channel{};
 const unsigned int MAX_LOG_SIZE{55};
 const unsigned int SRC_PADDING{25};
+std::string NICK{"YOU"};
 
 void printLog(std::string channel) {
     std::print("\r\033[1J");

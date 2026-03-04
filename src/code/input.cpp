@@ -2,6 +2,8 @@
 #include <channels.hpp>
 #include <unordered_map>
 #include <cwctype>
+#include <format>
+#include <print>
 
 const std::unordered_map<std::string, std::string> COMMANDS {
     {"/cd", "CD"},
@@ -84,6 +86,13 @@ std::vector<std::string> parseCmd(std::string cmd) {
 
 bool processInput(std::string& cmd) {
     std::vector<std::string> cmdv = parseCmd(cmd);
+    if (cmdv.size() > 2 && (cmdv[0] == "PRIVMSG" || cmdv[0] == "/msg")) {
+            std::string imsg{std::format(":{}!foo@bar PRIVMSG {} ", NICK, cmdv[1])};
+            for (size_t i = 2; i < cmdv.size(); i++) imsg.append(cmdv[i] + ' ');
+            imsg.append("\r\n");
+            logMsg(MsgIRC(imsg));
+    } else if (cmdv.size() >= 2 && (cmdv[0] == "NICK" || cmdv[0] == "/nick"))
+            NICK = cmdv[1];
     if (cmdv.size() < 1) return false;
     if (COMMANDS.contains(cmdv[0])) {
         if (cmd.size() > cmdv[0].size() + 1)
@@ -94,6 +103,7 @@ bool processInput(std::string& cmd) {
             CLIENT_CMDS.at(COMMANDS.at(cmdv[0]))(cmdv);
             return false;
         }
+        std::println("{}", cmdv);
     }
     return true;
 }
