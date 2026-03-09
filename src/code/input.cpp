@@ -103,7 +103,6 @@ bool processInput(std::string& cmd) {
             CLIENT_CMDS.at(COMMANDS.at(cmdv[0]))(cmdv);
             return false;
         }
-        std::println("{}", cmdv);
     }
     return true;
 }
